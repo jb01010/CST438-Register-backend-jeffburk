@@ -267,7 +267,8 @@ public class JunitTestSchedule {
         assertEquals(200, response.getStatus());
 
         StudentDTO result = fromJsonString(response.getContentAsString(), StudentDTO.class);
-        assertEquals(0, result.student_id);
+        
+        assertEquals(TEST_STUDENT_EMAIL, result.email);
 
         verify(studentRepository).save(any(Student.class));
     }
@@ -300,7 +301,7 @@ public class JunitTestSchedule {
         assertEquals(200, response.getStatus());
 
         StudentDTO result = fromJsonString(response.getContentAsString(), StudentDTO.class);
-        assertEquals(TEST_STUDENT_EMAIL, result.email);
+        assertEquals(1, result.student_id);
 
         verify(studentRepository).save(any(Student.class));
     }
