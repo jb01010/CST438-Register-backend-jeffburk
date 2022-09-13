@@ -336,6 +336,7 @@ public class JunitTestSchedule {
         StudentDTO result = fromJsonString(response.getContentAsString(), StudentDTO.class);
         assertEquals(0, result.status_code);
         verify(studentRepository).save(any(Student.class));
+        
     }
 
 
