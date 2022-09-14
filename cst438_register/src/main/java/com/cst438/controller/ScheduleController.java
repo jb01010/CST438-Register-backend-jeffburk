@@ -97,6 +97,8 @@ public class ScheduleController {
 		
 	}
 	
+	
+	
 	@DeleteMapping("/schedule/{enrollment_id}")
 	@Transactional
 	public void dropCourse(  @PathVariable int enrollment_id  ) {
