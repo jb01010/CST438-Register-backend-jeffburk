@@ -51,6 +51,50 @@ public class StudentController {
 	GradebookService gradebookService;
 	
 	
+	
+	/*
+	 * Get students
+	 */
+	@GetMapping("/student")
+
+    public List<StudentDTO> getStudents() {
+        Iterable<Student> students =studentRepository.findAll();
+
+        List<StudentDTO> studentsDTO = new ArrayList<StudentDTO>();
+
+        for (Student s: students) {
+            studentsDTO.add(createStudentDTO(s));
+        }
+
+        return studentsDTO;
+    }
+	
+	
+	
+	
+	/*
+	 * Delete student
+	 */
+	@DeleteMapping("/student/{student_id}")
+	@Transactional
+	public void dropStudent(  @PathVariable int student_id  ) {
+
+		
+		Student student = studentRepository.findById(student_id).orElse(null);
+		
+		// verify that student is enrolled in the course.
+		if (student!=null) {
+			// OK.  drop the course.
+			 studentRepository.deleteById(student_id);
+		} else {
+			// something is not right with the enrollment.  
+			throw  new ResponseStatusException( HttpStatus.BAD_REQUEST, "Enrollment_id invalid. "+student_id);
+		}
+	}
+	
+	
+	
+	
 	/*
 	 * Add student
 	 */

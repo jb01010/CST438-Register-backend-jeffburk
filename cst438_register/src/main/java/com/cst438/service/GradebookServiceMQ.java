@@ -40,17 +40,17 @@ public class GradebookServiceMQ extends GradebookService {
 		System.out.println("Message send to gradbook service for student "+ student_email +" " + course_id);  
 		
 	}
-	
+	// receive grades from grade book service
 	@RabbitListener(queues = "registration-queue")
 	public void receive(CourseDTOG courseDTOG) {
-		System.out.println("Receive enrollment :" + courseDTOG);
+		System.out.println("Enrollment received " + courseDTOG);
 
-		// process the list of student grades
+		
 		for (CourseDTOG.GradeDTO g : courseDTOG.grades) {
 			Enrollment e = enrollmentRepository.findByEmailAndCourseId(g.student_email, courseDTOG.course_id);
 			e.setCourseGrade(g.grade);
 			enrollmentRepository.save(e);
-			System.out.println("final grade update " + g.student_email + " " + courseDTOG.course_id + " " + g.grade);
+			System.out.println("Grade updated " + g.student_email + " " + courseDTOG.course_id + " " + g.grade);
 		}
 	}
 
